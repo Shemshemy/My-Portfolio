@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  portfolio:
+    build: .
+    container_name: dennis_portfolio
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - PORTFOLIO_ADMIN_KEY=dennis2024
+      - SECRET_KEY=production-secret-change-me
+      - DATABASE_PATH=/app/data/portfolio.db
+      - UPLOAD_FOLDER=/app/assets/images/uploads
+    volumes:
+      - portfolio_data:/app/data
+      - portfolio_uploads:/app/assets/images/uploads
+
+volumes:
+  portfolio_data:
+  portfolio_uploads:

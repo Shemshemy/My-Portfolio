@@ -19,20 +19,41 @@ import time
 from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify, send_from_directory
 
-# App Initialization
-app = Flask(__name__, static_folder='.', static_url_path='')
+# Optional environment variable support from .env
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+# App Initialization - static_folder=None ensures source code & db files are never publicly exposed
+app = Flask(__name__, static_folder=None)
 
 # Configuration
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATABASE_PATH = os.path.join(BASE_DIR, 'portfolio.db')
-UPLOAD_FOLDER = os.path.join(BASE_DIR, 'assets', 'images', 'uploads')
+DATABASE_PATH = os.environ.get('DATABASE_PATH', os.path.join(BASE_DIR, 'portfolio.db'))
+UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', os.path.join(BASE_DIR, 'assets', 'images', 'uploads'))
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp', 'gif'}
 ADMIN_PASSCODE = os.environ.get('PORTFOLIO_ADMIN_KEY', 'dennis2024')
 PORT = int(os.environ.get('PORT', 5000))
+SECRET_KEY = os.environ.get('SECRET_KEY', 'portfolio-shem-limo-secret-key-2024')
 
+# Ensure directories exist (crucial when using persistent volume mounts on cloud hosts)
+db_dir = os.path.dirname(os.path.abspath(DATABASE_PATH))
+if db_dir:
+    os.makedirs(db_dir, exist_ok=True)
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+app.config['SECRET_KEY'] = SECRET_KEY
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max
+
+# Reverse Proxy header fix (for Render, Railway, Nginx, Cloudflare visitor IP detection)
+try:
+    from werkzeug.middleware.proxy_fix import ProxyFix
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+except Exception:
+    pass
 
 # ==============================================================================
 # DATABASE & SCHEMA
@@ -281,13 +302,61 @@ def verify_admin_auth():
 # STATIC & WEB ROUTES
 # ==============================================================================
 
+@app.after_request
+def set_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    return response
+
 @app.route('/')
 def serve_index():
-    return send_from_directory('.', 'index.html')
+    return send_from_directory(BASE_DIR, 'index.html')
 
 @app.route('/admin')
 def serve_admin():
-    return send_from_directory('.', 'admin.html')
+    return send_from_directory(BASE_DIR, 'admin.html')
+
+@app.route('/css/<path:filename>')
+def serve_css(filename):
+    return send_from_directory(os.path.join(BASE_DIR, 'css'), filename)
+
+@app.route('/js/<path:filename>')
+def serve_js(filename):
+    return send_from_directory(os.path.join(BASE_DIR, 'js'), filename)
+
+@app.route('/assets/<path:filename>')
+def serve_assets(filename):
+    return send_from_directory(os.path.join(BASE_DIR, 'assets'), filename)
+
+@app.route('/robots.txt')
+def serve_robots():
+    return send_from_directory(BASE_DIR, 'robots.txt')
+
+@app.route('/sitemap.xml')
+def serve_sitemap():
+    return send_from_directory(BASE_DIR, 'sitemap.xml')
+
+@app.route('/favicon.ico')
+def serve_favicon():
+    return send_from_directory(os.path.join(BASE_DIR, 'assets', 'images'), 'cube-orange.png', mimetype='image/png')
+
+@app.route('/health')
+@app.route('/api/health')
+def health_check():
+    try:
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT 1')
+            cursor.fetchone()
+        return jsonify({
+            'status': 'healthy',
+            'database': 'connected',
+            'timestamp': int(time.time())
+        }), 200
+    except Exception as e:
+        return jsonify({'status': 'unhealthy', 'error': str(e)}), 500
 
 # ==============================================================================
 # IMAGE UPLOAD API

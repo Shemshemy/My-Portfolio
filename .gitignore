@@ -1,0 +1,39 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Environment Variables & Local Secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDE & Editor Settings
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs & Diagnostics
+*.log
+
+# SQLite Temporary Runtime Files (Locks & Journals)
+*.db-journal
+*.db-wal
+*.db-shm
+
+# OS / Temporary
+tmp/
+temp/
