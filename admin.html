@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard & CMS — Dennis Shem Limo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --admin-bg-elevated: #15151a;
+      --admin-border: rgba(255, 255, 255, 0.08);
+      --admin-border-focus: rgba(255, 87, 34, 0.5);
+    }
+    body {
+      background-color: #09090b;
+      color: #f4f4f6;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .admin-container {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 5rem;
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--admin-border);
+      padding-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .admin-nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      background: #111115;
+      padding: 0.4rem;
+      border-radius: 12px;
+      border: 1px solid var(--admin-border);
+      margin-bottom: 2rem;
+      overflow-x: auto;
+    }
+    .admin-tab-btn {
+      padding: 0.65rem 1.25rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 8px;
+      background: transparent;
+      color: #9c9ca8;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .admin-tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .admin-tab-btn.active {
+      background: var(--primary-orange);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(255, 87, 34, 0.35);
+    }
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.25s ease forwards;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stats Grid */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2.5rem;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--admin-border);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .stat-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary-orange);
+    }
+
+    /* Cards & Lists */
+    .cms-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .cms-card {
+      background: var(--bg-card);
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.2rem;
+      transition: all 0.2s ease;
+    }
+    .cms-card:hover {
+      border-color: rgba(255, 87, 34, 0.3);
+    }
+    .cms-card.unread {
+      border-left: 4px solid var(--primary-orange);
+      background: #18181d;
+    }
+
+    /* Forms & Inputs */
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #b0b0ba;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .form-control {
+      width: 100%;
+      background: #0d0d10;
+      border: 1px solid var(--admin-border);
+      color: #fff;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease;
+      box-sizing: border-box;
+    }
+    .form-control:focus {
+      border-color: var(--primary-orange);
+      box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+    }
+    textarea.form-control {
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.55;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    @media (max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Image Upload Box */
+    .upload-box {
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 1.2rem;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .upload-box:hover {
+      border-color: var(--primary-orange);
+      background: rgba(255, 87, 34, 0.05);
+    }
+    .image-preview-wrapper {
+      position: relative;
+      margin-top: 0.8rem;
+      display: inline-block;
+    }
+    .image-preview {
+      max-width: 140px;
+      max-height: 100px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--admin-border);
+    }
+
+    /* Buttons */
+    .btn-action {
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: none;
+      transition: all 0.2s ease;
+    }
+    .btn-edit {
+      background: #272730;
+      color: #fff;
+    }
+    .btn-edit:hover {
+      background: #363642;
+    }
+    .btn-delete {
+      background: #2b1717;
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.2);
+    }
+    .btn-delete:hover {
+      background: #3d1b1b;
+      color: #ff8a8a;
+    }
+    .btn-add {
+      background: var(--primary-orange);
+      color: #fff;
+      font-weight: 700;
+      padding: 0.65rem 1.4rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      box-shadow: 0 4px 14px rgba(255, 87, 34, 0.35);
+    }
+    .btn-add:hover {
+      background: #ff7043;
+    }
+
+    /* Modal Sheet */
+    .cms-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .cms-modal-overlay.active {
+      display: flex;
+    }
+    .cms-modal-content {
+      background: #121216;
+      border: 1px solid var(--admin-border-focus);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 650px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+    .cms-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--admin-border);
+      padding-bottom: 1rem;
+    }
+    .cms-modal-header h3 {
+      font-size: 1.3rem;
+      color: #fff;
+      margin: 0;
+    }
+    .cms-modal-close {
+      background: transparent;
+      border: none;
+      color: #9c9ca8;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.2rem 0.5rem;
+    }
+    .cms-modal-close:hover {
+      color: #fff;
+    }
+
+    /* Login Box */
+    .login-box {
+      max-width: 420px;
+      margin: 5rem auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-highlight);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+    }
+    .input-passcode {
+      width: 100%;
+      background: #0d0d10;
+      border: 1px solid var(--admin-border);
+      color: #fff;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      margin: 1.2rem 0;
+      outline: none;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .input-passcode:focus {
+      border-color: var(--primary-orange);
+    }
+
+    /* Toast */
+    .cms-toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #18181f;
+      color: #fff;
+      border: 1px solid var(--primary-orange);
+      padding: 0.9rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cms-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Skills Grid */
+    .skills-cms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .skill-cms-card {
+      background: var(--bg-card);
+      border: 1px solid var(--admin-border);
+      border-radius: 10px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .skill-cms-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .skill-cms-icon {
+      width: 28px;
+      height: 28px;
+      fill: var(--primary-orange);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    <!-- Top Header -->
+    <div class="admin-header">
+      <div>
+        <a href="/" style="font-size: 0.86rem; color: var(--text-muted); display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem;">
+          ← Back to Live Portfolio
+        </a>
+        <h1 style="font-size: 1.8rem; color: #fff; margin: 0;">
+          Dennis's <span style="color: var(--primary-orange);">Portfolio CMS</span>
+        </h1>
+      </div>
+      <div id="authActions" style="display: none; align-items: center; gap: 1rem;">
+        <span style="font-size: 0.82rem; color: #10b981; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); padding: 4px 10px; border-radius: 999px;">
+          ● Authenticated
+        </span>
+        <button onclick="logout()" class="btn-action btn-delete" style="padding: 0.5rem 1rem;">
+          Log Out
+        </button>
+      </div>
+    </div>
+
+    <!-- Login View (if not authenticated) -->
+    <div id="loginSection" class="login-box">
+      <div style="font-size: 2.5rem; margin-bottom: 0.8rem;">🔒</div>
+      <h2 style="font-size: 1.35rem; margin-bottom: 0.5rem; color: #fff;">Admin Passcode Required</h2>
+      <p style="font-size: 0.88rem; color: var(--text-secondary);">Enter your passcode to manage projects, skills, blogs & inquiries.</p>
+      <input type="password" id="passcodeInput" class="input-passcode" placeholder="Passcode (Default: dennis2024)" autofocus>
+      <button onclick="attemptLogin()" class="btn-add" style="width: 100%; justify-content: center;">Access Dashboard</button>
+      <p id="loginError" style="color: #f87171; font-size: 0.85rem; margin-top: 0.8rem; display: none;"></p>
+    </div>
+
+    <!-- Authenticated CMS View -->
+    <div id="cmsSection" style="display: none;">
+      <!-- Navigation Tabs -->
+      <div class="admin-nav-tabs">
+        <button class="admin-tab-btn active" onclick="switchTab('overview')">
+          📊 <span>Overview & Inquiries</span>
+        </button>
+        <button class="admin-tab-btn" onclick="switchTab('projects')">
+          🚀 <span>Projects Manager</span>
+        </button>
+        <button class="admin-tab-btn" onclick="switchTab('skills')">
+          🛠️ <span>Skills Manager</span>
+        </button>
+        <button class="admin-tab-btn" onclick="switchTab('blogs')">
+          ✍️ <span>Blogs & Insights</span>
+        </button>
+        <button class="admin-tab-btn" onclick="switchTab('profile')">
+          👤 <span>Profile & Bio</span>
+        </button>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- TAB 1: OVERVIEW & INQUIRIES -->
+      <!-- ================================================================= -->
+      <div id="tab-overview" class="tab-content active">
+        <!-- Stats Row -->
+        <div class="admin-stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Inquiries</div>
+            <div class="stat-value" id="statInquiries">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Page Views</div>
+            <div class="stat-value" id="statViews">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Project Clicks</div>
+            <div class="stat-value" id="statClicks">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">CV Views</div>
+            <div class="stat-value" id="statCv">0</div>
+          </div>
+        </div>
+
+        <div class="cms-panel-header">
+          <h2 style="font-size: 1.3rem; color: #fff; margin: 0;">Client Inquiries (<span id="msgCount">0</span>)</h2>
+          <button onclick="loadMessages()" class="btn-action btn-edit">
+            ↻ Refresh Inbox
+          </button>
+        </div>
+
+        <div id="messageList"></div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- TAB 2: PROJECTS MANAGER -->
+      <!-- ================================================================= -->
+      <div id="tab-projects" class="tab-content">
+        <div class="cms-panel-header">
+          <div>
+            <h2 style="font-size: 1.3rem; color: #fff; margin: 0 0 0.3rem 0;">Projects Management</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Add, modify or delete featured portfolio projects.</p>
+          </div>
+          <button onclick="openProjectModal()" class="btn-add">
+            + Add New Project
+          </button>
+        </div>
+
+        <div id="projectsList"></div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- TAB 3: SKILLS MANAGER -->
+      <!-- ================================================================= -->
+      <div id="tab-skills" class="tab-content">
+        <div class="cms-panel-header">
+          <div>
+            <h2 style="font-size: 1.3rem; color: #fff; margin: 0 0 0.3rem 0;">Skills & Technologies</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Manage the technical skills displayed on your 12-skill grid.</p>
+          </div>
+          <button onclick="openSkillModal()" class="btn-add">
+            + Add New Skill
+          </button>
+        </div>
+
+        <div id="skillsList" class="skills-cms-grid"></div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- TAB 4: BLOGS & INSIGHTS -->
+      <!-- ================================================================= -->
+      <div id="tab-blogs" class="tab-content">
+        <div class="cms-panel-header">
+          <div>
+            <h2 style="font-size: 1.3rem; color: #fff; margin: 0 0 0.3rem 0;">Published Articles & Case Studies</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Write and publish technical articles, case studies, and insights.</p>
+          </div>
+          <button onclick="openBlogModal()" class="btn-add">
+            + Write New Article
+          </button>
+        </div>
+
+        <div id="blogsList"></div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- TAB 5: PROFILE & BIO -->
+      <!-- ================================================================= -->
+      <div id="tab-profile" class="tab-content">
+        <div class="cms-panel-header">
+          <div>
+            <h2 style="font-size: 1.3rem; color: #fff; margin: 0 0 0.3rem 0;">Profile Information & Biography</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Update your name, headline, contact channels, and bio statements.</p>
+          </div>
+        </div>
+
+        <form id="profileForm" class="cms-card" onsubmit="saveProfile(event)" style="max-width: 800px;">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="profFullName" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Professional Title</label>
+              <input type="text" id="profTitle" class="form-control" placeholder="e.g. Data Analyst • Python Developer" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="profEmail" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="text" id="profPhone" class="form-control" placeholder="+254 721 877 088">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Location</label>
+              <input type="text" id="profLocation" class="form-control" placeholder="Nairobi, Kenya (Remote-Ready)">
+            </div>
+            <div class="form-group">
+              <label>Availability Status</label>
+              <input type="text" id="profStatus" class="form-control" placeholder="Available for full-time or contract">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Short Headline Bio</label>
+            <input type="text" id="profBioShort" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label>Full Biography</label>
+            <textarea id="profBioLong" class="form-control" style="min-height: 130px;"></textarea>
+          </div>
+
+          <button type="submit" class="btn-add" style="margin-top: 1rem;">
+            Save Profile Settings
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PROJECT MODAL -->
+  <!-- ===================================================================== -->
+  <div id="projectModal" class="cms-modal-overlay">
+    <div class="cms-modal-content">
+      <div class="cms-modal-header">
+        <h3 id="projectModalTitle">Add New Project</h3>
+        <button class="cms-modal-close" onclick="closeProjectModal()">&times;</button>
+      </div>
+      <form id="projectForm" onsubmit="saveProject(event)">
+        <input type="hidden" id="projId">
+        
+        <div class="form-group">
+          <label>Project Title *</label>
+          <input type="text" id="projTitle" class="form-control" placeholder="e.g. OrbitIQ" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category / Badge</label>
+            <input type="text" id="projCategory" class="form-control" placeholder="e.g. Solo Project • Live on Render">
+          </div>
+          <div class="form-group">
+            <label>Live URL (Optional)</label>
+            <input type="url" id="projUrl" class="form-control" placeholder="https://example.onrender.com">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Subtitle / One-line summary</label>
+          <input type="text" id="projSubtitle" class="form-control" placeholder="Brief summary of the project">
+        </div>
+
+        <div class="form-group">
+          <label>Tech Stack (Comma-separated)</label>
+          <input type="text" id="projStack" class="form-control" placeholder="Python, Pandas, Flask, Render, OCR">
+        </div>
+
+        <div class="form-group">
+          <label>Project Cover Image / Picture</label>
+          <div class="upload-box" onclick="document.getElementById('projFileInput').click()">
+            <span style="font-size: 1.5rem;">📷</span>
+            <span style="font-size: 0.88rem; color: #fff;">Click to upload picture from your computer</span>
+            <span style="font-size: 0.78rem; color: var(--text-muted);">(PNG, JPG, WebP supported)</span>
+            <input type="file" id="projFileInput" style="display: none;" accept="image/*" onchange="handleFileUpload(this, 'projImageUrl', 'projImagePreview')">
+          </div>
+          <div style="display: flex; gap: 0.8rem; align-items: center; margin-top: 0.8rem;">
+            <input type="text" id="projImageUrl" class="form-control" placeholder="Or enter image URL (e.g. assets/images/blog-1.jpg)">
+          </div>
+          <div id="projImagePreviewWrapper" style="display: none; margin-top: 0.6rem;">
+            <img id="projImagePreview" class="image-preview" src="" alt="Project Preview">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description & Key Features *</label>
+          <textarea id="projDesc" class="form-control" placeholder="Detailed engineering breakdown and accomplishments" required></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.8rem; margin-top: 1.5rem;">
+          <button type="button" class="btn-action btn-edit" onclick="closeProjectModal()">Cancel</button>
+          <button type="submit" class="btn-add">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- SKILL MODAL -->
+  <!-- ===================================================================== -->
+  <div id="skillModal" class="cms-modal-overlay">
+    <div class="cms-modal-content" style="max-width: 480px;">
+      <div class="cms-modal-header">
+        <h3>Add Technical Skill</h3>
+        <button class="cms-modal-close" onclick="closeSkillModal()">&times;</button>
+      </div>
+      <form id="skillForm" onsubmit="saveSkill(event)">
+        <div class="form-group">
+          <label>Skill / Tool Name *</label>
+          <input type="text" id="skillName" class="form-control" placeholder="e.g. Docker, PyTorch, FastApi" required>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="skillCategory" class="form-control">
+            <option value="Programming & Data">Programming & Data</option>
+            <option value="Machine Learning">Machine Learning</option>
+            <option value="Visualization">Visualization</option>
+            <option value="Data Analysis">Data Analysis</option>
+            <option value="Computer Vision">Computer Vision</option>
+            <option value="Full-Stack">Full-Stack</option>
+            <option value="Networking & Security">Networking & Security</option>
+            <option value="DevOps & Deploy">DevOps & Deploy</option>
+            <option value="Research & Tools">Research & Tools</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Preset Icon</label>
+          <select id="skillIconPreset" class="form-control" onchange="onPresetIconChange()">
+            <option value="code">⚡ Code / Development</option>
+            <option value="data">📊 Data / Analytics</option>
+            <option value="ai">🤖 AI / Machine Learning</option>
+            <option value="cloud">☁️ Cloud / Server</option>
+            <option value="shield">🛡️ Security / Network</option>
+          </select>
+        </div>
+        <input type="hidden" id="skillSvg">
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.8rem; margin-top: 1.5rem;">
+          <button type="button" class="btn-action btn-edit" onclick="closeSkillModal()">Cancel</button>
+          <button type="submit" class="btn-add">Add Skill</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- BLOG MODAL -->
+  <!-- ===================================================================== -->
+  <div id="blogModal" class="cms-modal-overlay">
+    <div class="cms-modal-content">
+      <div class="cms-modal-header">
+        <h3 id="blogModalTitle">Write New Article</h3>
+        <button class="cms-modal-close" onclick="closeBlogModal()">&times;</button>
+      </div>
+      <form id="blogForm" onsubmit="saveBlog(event)">
+        <input type="hidden" id="blogId">
+
+        <div class="form-group">
+          <label>Article Title *</label>
+          <input type="text" id="blogTitle" class="form-control" placeholder="e.g. Scaling Machine Learning Pipelines with Python" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category / Topic</label>
+            <input type="text" id="blogCategory" class="form-control" placeholder="e.g. Data Science • Architecture">
+          </div>
+          <div class="form-group">
+            <label>Read Time</label>
+            <input type="text" id="blogReadTime" class="form-control" placeholder="e.g. 5 min read">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Thumbnail / Cover Picture</label>
+          <div class="upload-box" onclick="document.getElementById('blogFileInput').click()">
+            <span style="font-size: 1.5rem;">🖼️</span>
+            <span style="font-size: 0.88rem; color: #fff;">Click to upload blog cover image</span>
+            <span style="font-size: 0.78rem; color: var(--text-muted);">(PNG, JPG, WebP supported)</span>
+            <input type="file" id="blogFileInput" style="display: none;" accept="image/*" onchange="handleFileUpload(this, 'blogImageUrl', 'blogImagePreview')">
+          </div>
+          <div style="display: flex; gap: 0.8rem; align-items: center; margin-top: 0.8rem;">
+            <input type="text" id="blogImageUrl" class="form-control" placeholder="Or enter image URL (e.g. assets/images/blog-1.jpg)">
+          </div>
+          <div id="blogImagePreviewWrapper" style="display: none; margin-top: 0.6rem;">
+            <img id="blogImagePreview" class="image-preview" src="" alt="Blog Preview">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Article Content *</label>
+          <textarea id="blogContent" class="form-control" style="min-height: 180px;" placeholder="Write your article text, thoughts, code snippets, or key takeaways..." required></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.8rem; margin-top: 1.5rem;">
+          <button type="button" class="btn-action btn-edit" onclick="closeBlogModal()">Cancel</button>
+          <button type="submit" class="btn-add">Publish Article</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="cmsToast" class="cms-toast">
+    <span id="cmsToastIcon" style="color: var(--primary-orange); font-size: 1.2rem;">✓</span>
+    <span id="cmsToastText">Action completed</span>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT CMS CONTROLLER -->
+  <!-- ===================================================================== -->
+  <script>
+    let adminToken = localStorage.getItem('portfolio_admin_token') || '';
+
+    const iconSVGs = {
+      code: '<svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>',
+      data: '<svg viewBox="0 0 24 24"><path d="M4 11h3v10H4zm5-4h3v14H9zm5-5h3v19h-3zm5 8h3v11h-3z"/></svg>',
+      ai: '<svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .26-.05.5-.14.73l2.41 2.41c.23-.09.47-.14.73-.14a2 2 0 1 1 0 4c-.26 0-.5-.05-.73-.14l-2.41 2.41c.09.23.14.47.14.73a2 2 0 1 1-4 0c0-.26.05-.5.14-.73L7.73 11.27c-.23.09-.47.14-.73.14a2 2 0 1 1 0-4c.26 0 .5.05.73.14l2.41-2.41c-.09-.23-.14-.47-.14-.73a2 2 0 0 1 2-2zm0 13a2 2 0 0 1 2 2c0 .26-.05.5-.14.73l2.41 2.41c.23-.09.47-.14.73-.14a2 2 0 1 1 0 4c-.26 0-.5-.05-.73-.14l-2.41-2.41c.09-.23.14-.47.14-.73a2 2 0 1 1-4 0z"/></svg>',
+      cloud: '<svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/></svg>',
+      shield: '<svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>'
+    };
+
+    function notify(text, icon = '✓') {
+      const toast = document.getElementById('cmsToast');
+      document.getElementById('cmsToastText').textContent = text;
+      document.getElementById('cmsToastIcon').textContent = icon;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    function checkAuth() {
+      if (adminToken) {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('cmsSection').style.display = 'block';
+        document.getElementById('authActions').style.display = 'flex';
+        loadStats();
+        loadMessages();
+        loadProjects();
+        loadSkills();
+        loadBlogs();
+        loadProfile();
+      } else {
+        document.getElementById('loginSection').style.display = 'block';
+        document.getElementById('cmsSection').style.display = 'none';
+        document.getElementById('authActions').style.display = 'none';
+      }
+    }
+
+    async function attemptLogin() {
+      const passcode = document.getElementById('passcodeInput').value.trim();
+      const errorEl = document.getElementById('loginError');
+      errorEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode })
+        });
+        const data = await res.json();
+        if (data.success) {
+          adminToken = data.token;
+          localStorage.setItem('portfolio_admin_token', adminToken);
+          checkAuth();
+          notify('Welcome to your Dashboard, Dennis!', '👋');
+        } else {
+          errorEl.textContent = data.error || 'Incorrect passcode';
+          errorEl.style.display = 'block';
+        }
+      } catch (err) {
+        errorEl.textContent = 'Connection error. Check if backend is active.';
+        errorEl.style.display = 'block';
+      }
+    }
+
+    document.getElementById('passcodeInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') attemptLogin();
+    });
+
+    function logout() {
+      adminToken = '';
+      localStorage.removeItem('portfolio_admin_token');
+      checkAuth();
+      notify('Logged out successfully');
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+
+      const targetTab = document.getElementById('tab-' + tabId);
+      if (targetTab) targetTab.classList.add('active');
+
+      const activeBtn = Array.from(document.querySelectorAll('.admin-tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    // =========================================================================
+    // STATS & MESSAGES
+    // =========================================================================
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        if (data.success && data.stats) {
+          document.getElementById('statInquiries').textContent = data.stats.total_inquiries;
+          document.getElementById('statViews').textContent = data.stats.page_views;
+          document.getElementById('statClicks').textContent = data.stats.project_clicks;
+          document.getElementById('statCv').textContent = data.stats.cv_views;
+        }
+      } catch (e) {
+        console.error('Stats error:', e);
+      }
+    }
+
+    async function loadMessages() {
+      const listEl = document.getElementById('messageList');
+      listEl.innerHTML = '<p style="color: var(--text-muted);">Loading inquiries...</p>';
+
+      try {
+        const res = await fetch('/api/admin/messages', {
+          headers: { 'X-Admin-Key': adminToken }
+        });
+        if (res.status === 401) { logout(); return; }
+        const data = await res.json();
+        if (!data.success || !data.messages.length) {
+          listEl.innerHTML = '<div class="cms-card" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">No client inquiries yet. Messages submitted via the contact form will appear here.</div>';
+          document.getElementById('msgCount').textContent = '0';
+          return;
+        }
+
+        document.getElementById('msgCount').textContent = data.messages.length;
+        listEl.innerHTML = '';
+
+        data.messages.forEach((m) => {
+          const card = document.createElement('div');
+          card.className = 'cms-card' + (m.is_read ? '' : ' unread');
+          card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 700; color: #fff;">${escapeHtml(m.name)}</div>
+                <div style="font-size: 0.84rem; color: var(--text-muted); margin-top: 0.2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                  <span>✉️ <a href="mailto:${escapeHtml(m.email)}" style="color: var(--primary-orange);">${escapeHtml(m.email)}</a></span>
+                  ${m.phone ? `<span>📞 ${escapeHtml(m.phone)}</span>` : ''}
+                  <span>📅 ${escapeHtml(m.created_at)}</span>
+                </div>
+              </div>
+              <span style="font-size: 0.75rem; background: rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 4px; color: #a1a1aa;">
+                IP: ${escapeHtml(m.ip_address || 'local')}
+              </span>
+            </div>
+            <div style="font-size: 0.95rem; color: #d4d4d8; line-height: 1.65; background: rgba(0,0,0,0.25); padding: 1rem; border-radius: 6px; margin: 1rem 0; white-space: pre-wrap;">${escapeHtml(m.message)}</div>
+            <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
+              <a href="mailto:${escapeHtml(m.email)}?subject=Re:%20Portfolio%20Inquiry" class="btn-action" style="background: var(--primary-orange); color: #fff;">
+                Reply via Email ✉️
+              </a>
+              ${!m.is_read ? `<button onclick="markRead(${m.id})" class="btn-action btn-edit">Mark as Read</button>` : ''}
+              <button onclick="deleteMsg(${m.id})" class="btn-action btn-delete">Delete</button>
+            </div>
+          `;
+          listEl.appendChild(card);
+        });
+      } catch (err) {
+        listEl.innerHTML = '<p style="color: #f87171;">Failed to load messages.</p>';
+      }
+    }
+
+    async function markRead(id) {
+      await fetch(`/api/admin/messages/${id}/read`, {
+        method: 'POST',
+        headers: { 'X-Admin-Key': adminToken }
+      });
+      loadMessages();
+    }
+
+    async function deleteMsg(id) {
+      if (!confirm('Are you sure you want to delete this message?')) return;
+      await fetch(`/api/admin/messages/${id}`, {
+        method: 'DELETE',
+        headers: { 'X-Admin-Key': adminToken }
+      });
+      notify('Message deleted');
+      loadMessages();
+      loadStats();
+    }
+
+    // =========================================================================
+    // IMAGE UPLOADS
+    // =========================================================================
+    async function handleFileUpload(input, targetUrlId, previewImgId) {
+      const file = input.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      notify('Uploading image...', '⏳');
+
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          headers: { 'X-Admin-Key': adminToken },
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById(targetUrlId).value = data.url;
+          const previewImg = document.getElementById(previewImgId);
+          if (previewImg) {
+            previewImg.src = data.url;
+            previewImg.parentElement.style.display = 'block';
+          }
+          notify('Picture uploaded successfully! ✓', '📷');
+        } else {
+          alert('Upload failed: ' + (data.error || 'Unknown error'));
+        }
+      } catch (err) {
+        alert('Network error while uploading picture.');
+      }
+    }
+
+    // =========================================================================
+    // PROJECTS CRUD
+    // =========================================================================
+    let loadedProjects = [];
+
+    async function loadProjects() {
+      const listEl = document.getElementById('projectsList');
+      listEl.innerHTML = '<p style="color: var(--text-muted);">Loading projects...</p>';
+
+      try {
+        const res = await fetch('/api/projects');
+        const data = await res.json();
+        if (data.success) {
+          loadedProjects = data.projects;
+          renderProjectsList();
+        }
+      } catch (e) {
+        listEl.innerHTML = '<p style="color: #f87171;">Failed to load projects.</p>';
+      }
+    }
+
+    function renderProjectsList() {
+      const listEl = document.getElementById('projectsList');
+      if (!loadedProjects.length) {
+        listEl.innerHTML = '<div class="cms-card" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">No projects added yet. Click "+ Add New Project" above to create one.</div>';
+        return;
+      }
+      listEl.innerHTML = '';
+      loadedProjects.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'cms-card';
+        card.innerHTML = `
+          <div style="display: flex; gap: 1.2rem; align-items: flex-start; flex-wrap: wrap;">
+            <img src="${escapeHtml(p.image_url || 'assets/images/blog-1.jpg')}" style="width: 100px; height: 75px; object-fit: cover; border-radius: 8px; border: 1px solid var(--admin-border);" onerror="this.src='assets/images/blog-1.jpg'">
+            <div style="flex: 1; min-width: 250px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+                <h3 style="font-size: 1.15rem; color: #fff; margin: 0;">${escapeHtml(p.title)}</h3>
+                <div style="display: flex; gap: 0.5rem;">
+                  <button onclick="editProject(${p.id})" class="btn-action btn-edit">Edit ✏️</button>
+                  <button onclick="deleteProject(${p.id})" class="btn-action btn-delete">Delete 🗑️</button>
+                </div>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--primary-orange); font-weight: 600; margin-bottom: 0.4rem;">
+                ${escapeHtml(p.category || '')} ${p.live_url ? `• <a href="${escapeHtml(p.live_url)}" target="_blank" style="color: #60a5fa; text-decoration: underline;">Live URL ↗</a>` : ''}
+              </div>
+              <p style="font-size: 0.88rem; color: #a1a1aa; line-height: 1.5; margin: 0 0 0.8rem 0;">
+                ${escapeHtml(p.description)}
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                ${(p.stack_list || []).map(s => `<span style="font-size: 0.75rem; background: rgba(255,87,34,0.12); color: #ff8a65; padding: 2px 8px; border-radius: 4px;">${escapeHtml(s)}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+        listEl.appendChild(card);
+      });
+    }
+
+    function openProjectModal(item = null) {
+      const modal = document.getElementById('projectModal');
+      const titleEl = document.getElementById('projectModalTitle');
+      const form = document.getElementById('projectForm');
+      form.reset();
+
+      const previewWrapper = document.getElementById('projImagePreviewWrapper');
+      const previewImg = document.getElementById('projImagePreview');
+
+      if (item) {
+        titleEl.textContent = 'Edit Project';
+        document.getElementById('projId').value = item.id;
+        document.getElementById('projTitle').value = item.title;
+        document.getElementById('projCategory').value = item.category || '';
+        document.getElementById('projUrl').value = item.live_url || '';
+        document.getElementById('projSubtitle').value = item.subtitle || '';
+        document.getElementById('projStack').value = item.tech_stack || '';
+        document.getElementById('projImageUrl').value = item.image_url || '';
+        document.getElementById('projDesc').value = item.description || '';
+
+        if (item.image_url) {
+          previewImg.src = item.image_url;
+          previewWrapper.style.display = 'block';
+        } else {
+          previewWrapper.style.display = 'none';
+        }
+      } else {
+        titleEl.textContent = 'Add New Project';
+        document.getElementById('projId').value = '';
+        previewWrapper.style.display = 'none';
+      }
+
+      modal.classList.add('active');
+    }
+
+    function closeProjectModal() {
+      document.getElementById('projectModal').classList.remove('active');
+    }
+
+    function editProject(id) {
+      const p = loadedProjects.find(item => item.id === id);
+      if (p) openProjectModal(p);
+    }
+
+    async function saveProject(e) {
+      e.preventDefault();
+      const id = document.getElementById('projId').value;
+      const payload = {
+        title: document.getElementById('projTitle').value.trim(),
+        category: document.getElementById('projCategory').value.trim(),
+        live_url: document.getElementById('projUrl').value.trim(),
+        subtitle: document.getElementById('projSubtitle').value.trim(),
+        tech_stack: document.getElementById('projStack').value.trim(),
+        image_url: document.getElementById('projImageUrl').value.trim(),
+        description: document.getElementById('projDesc').value.trim()
+      };
+
+      const url = id ? `/api/admin/projects/${id}` : '/api/admin/projects';
+      const method = id ? 'PUT' : 'POST';
+
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Admin-Key': adminToken
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          notify(id ? 'Project updated!' : 'Project created successfully!');
+          closeProjectModal();
+          loadProjects();
+        } else {
+          alert('Error: ' + (data.error || 'Failed to save project'));
+        }
+      } catch (err) {
+        alert('Network error while saving project.');
+      }
+    }
+
+    async function deleteProject(id) {
+      if (!confirm('Are you sure you want to delete this project?')) return;
+      try {
+        const res = await fetch(`/api/admin/projects/${id}`, {
+          method: 'DELETE',
+          headers: { 'X-Admin-Key': adminToken }
+        });
+        const data = await res.json();
+        if (data.success) {
+          notify('Project removed');
+          loadProjects();
+        }
+      } catch (err) {
+        alert('Failed to delete project.');
+      }
+    }
+
+    // =========================================================================
+    // SKILLS CRUD
+    // =========================================================================
+    let loadedSkills = [];
+
+    async function loadSkills() {
+      try {
+        const res = await fetch('/api/skills');
+        const data = await res.json();
+        if (data.success) {
+          loadedSkills = data.skills;
+          renderSkillsList();
+        }
+      } catch (e) {
+        console.error('Skills load error:', e);
+      }
+    }
+
+    function renderSkillsList() {
+      const listEl = document.getElementById('skillsList');
+      if (!loadedSkills.length) {
+        listEl.innerHTML = '<div class="cms-card" style="text-align: center; color: var(--text-muted); padding: 2.5rem; grid-column: 1/-1;">No skills added yet. Click "+ Add New Skill" to add one.</div>';
+        return;
+      }
+      listEl.innerHTML = '';
+      loadedSkills.forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'skill-cms-card';
+        card.innerHTML = `
+          <div class="skill-cms-info">
+            <div class="skill-cms-icon">${s.icon_svg || '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>'}</div>
+            <div>
+              <div style="font-size: 0.92rem; font-weight: 700; color: #fff;">${escapeHtml(s.name)}</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">${escapeHtml(s.category || 'Skill')}</div>
+            </div>
+          </div>
+          <button onclick="deleteSkill(${s.id})" class="btn-action btn-delete" style="padding: 0.35rem 0.65rem;" title="Delete skill">✕</button>
+        `;
+        listEl.appendChild(card);
+      });
+    }
+
+    function openSkillModal() {
+      document.getElementById('skillForm').reset();
+      onPresetIconChange();
+      document.getElementById('skillModal').classList.add('active');
+    }
+
+    function closeSkillModal() {
+      document.getElementById('skillModal').classList.remove('active');
+    }
+
+    function onPresetIconChange() {
+      const preset = document.getElementById('skillIconPreset').value;
+      document.getElementById('skillSvg').value = iconSVGs[preset] || iconSVGs.code;
+    }
+
+    async function saveSkill(e) {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('skillName').value.trim(),
+        category: document.getElementById('skillCategory').value,
+        icon_svg: document.getElementById('skillSvg').value
+      };
+
+      try {
+        const res = await fetch('/api/admin/skills', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Admin-Key': adminToken
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          notify('New skill added to your grid!');
+          closeSkillModal();
+          loadSkills();
+        } else {
+          alert('Error: ' + (data.error || 'Failed to add skill'));
+        }
+      } catch (err) {
+        alert('Failed to save skill.');
+      }
+    }
+
+    async function deleteSkill(id) {
+      if (!confirm('Are you sure you want to remove this skill?')) return;
+      try {
+        const res = await fetch(`/api/admin/skills/${id}`, {
+          method: 'DELETE',
+          headers: { 'X-Admin-Key': adminToken }
+        });
+        const data = await res.json();
+        if (data.success) {
+          notify('Skill removed');
+          loadSkills();
+        }
+      } catch (err) {
+        alert('Failed to delete skill.');
+      }
+    }
+
+    // =========================================================================
+    // BLOGS CRUD
+    // =========================================================================
+    let loadedBlogs = [];
+
+    async function loadBlogs() {
+      const listEl = document.getElementById('blogsList');
+      listEl.innerHTML = '<p style="color: var(--text-muted);">Loading articles...</p>';
+
+      try {
+        const res = await fetch('/api/blogs');
+        const data = await res.json();
+        if (data.success) {
+          loadedBlogs = data.blogs;
+          renderBlogsList();
+        }
+      } catch (e) {
+        listEl.innerHTML = '<p style="color: #f87171;">Failed to load articles.</p>';
+      }
+    }
+
+    function renderBlogsList() {
+      const listEl = document.getElementById('blogsList');
+      if (!loadedBlogs.length) {
+        listEl.innerHTML = '<div class="cms-card" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">No blog articles published yet. Click "+ Write New Article" above to publish one.</div>';
+        return;
+      }
+      listEl.innerHTML = '';
+      loadedBlogs.forEach(b => {
+        const card = document.createElement('div');
+        card.className = 'cms-card';
+        card.innerHTML = `
+          <div style="display: flex; gap: 1.2rem; align-items: flex-start; flex-wrap: wrap;">
+            <img src="${escapeHtml(b.image_url || 'assets/images/blog-1.jpg')}" style="width: 100px; height: 75px; object-fit: cover; border-radius: 8px; border: 1px solid var(--admin-border);" onerror="this.src='assets/images/blog-1.jpg'">
+            <div style="flex: 1; min-width: 250px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+                <h3 style="font-size: 1.15rem; color: #fff; margin: 0;">${escapeHtml(b.title)}</h3>
+                <div style="display: flex; gap: 0.5rem;">
+                  <button onclick="editBlog(${b.id})" class="btn-action btn-edit">Edit ✏️</button>
+                  <button onclick="deleteBlog(${b.id})" class="btn-action btn-delete">Delete 🗑️</button>
+                </div>
+              </div>
+              <div style="font-size: 0.82rem; color: var(--primary-orange); font-weight: 600; margin-bottom: 0.4rem;">
+                ${escapeHtml(b.category || 'Article')} • ⏱️ ${escapeHtml(b.read_time || '5 min read')} • 📅 ${escapeHtml(b.date_str || '')}
+              </div>
+              <p style="font-size: 0.88rem; color: #a1a1aa; line-height: 1.5; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                ${escapeHtml(b.content)}
+              </p>
+            </div>
+          </div>
+        `;
+        listEl.appendChild(card);
+      });
+    }
+
+    function openBlogModal(item = null) {
+      const modal = document.getElementById('blogModal');
+      const titleEl = document.getElementById('blogModalTitle');
+      const form = document.getElementById('blogForm');
+      form.reset();
+
+      const previewWrapper = document.getElementById('blogImagePreviewWrapper');
+      const previewImg = document.getElementById('blogImagePreview');
+
+      if (item) {
+        titleEl.textContent = 'Edit Article';
+        document.getElementById('blogId').value = item.id;
+        document.getElementById('blogTitle').value = item.title;
+        document.getElementById('blogCategory').value = item.category || '';
+        document.getElementById('blogReadTime').value = item.read_time || '';
+        document.getElementById('blogImageUrl').value = item.image_url || '';
+        document.getElementById('blogContent').value = item.content || '';
+
+        if (item.image_url) {
+          previewImg.src = item.image_url;
+          previewWrapper.style.display = 'block';
+        } else {
+          previewWrapper.style.display = 'none';
+        }
+      } else {
+        titleEl.textContent = 'Write New Article';
+        document.getElementById('blogId').value = '';
+        previewWrapper.style.display = 'none';
+      }
+
+      modal.classList.add('active');
+    }
+
+    function closeBlogModal() {
+      document.getElementById('blogModal').classList.remove('active');
+    }
+
+    function editBlog(id) {
+      const b = loadedBlogs.find(item => item.id === id);
+      if (b) openBlogModal(b);
+    }
+
+    async function saveBlog(e) {
+      e.preventDefault();
+      const id = document.getElementById('blogId').value;
+      const payload = {
+        title: document.getElementById('blogTitle').value.trim(),
+        category: document.getElementById('blogCategory').value.trim(),
+        read_time: document.getElementById('blogReadTime').value.trim(),
+        image_url: document.getElementById('blogImageUrl').value.trim(),
+        content: document.getElementById('blogContent').value.trim()
+      };
+
+      const url = id ? `/api/admin/blogs/${id}` : '/api/admin/blogs';
+      const method = id ? 'PUT' : 'POST';
+
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Admin-Key': adminToken
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          notify(id ? 'Article updated!' : 'Article published successfully!');
+          closeBlogModal();
+          loadBlogs();
+        } else {
+          alert('Error: ' + (data.error || 'Failed to save blog'));
+        }
+      } catch (err) {
+        alert('Network error while saving article.');
+      }
+    }
+
+    async function deleteBlog(id) {
+      if (!confirm('Are you sure you want to delete this article?')) return;
+      try {
+        const res = await fetch(`/api/admin/blogs/${id}`, {
+          method: 'DELETE',
+          headers: { 'X-Admin-Key': adminToken }
+        });
+        const data = await res.json();
+        if (data.success) {
+          notify('Article deleted');
+          loadBlogs();
+        }
+      } catch (err) {
+        alert('Failed to delete article.');
+      }
+    }
+
+    // =========================================================================
+    // PROFILE SETTINGS
+    // =========================================================================
+    async function loadProfile() {
+      try {
+        const res = await fetch('/api/profile');
+        const data = await res.json();
+        if (data.success && data.profile) {
+          const p = data.profile;
+          document.getElementById('profFullName').value = p.full_name || '';
+          document.getElementById('profTitle').value = p.title || '';
+          document.getElementById('profEmail').value = p.email || '';
+          document.getElementById('profPhone').value = p.phone || '';
+          document.getElementById('profLocation').value = p.location || '';
+          document.getElementById('profStatus').value = p.status_text || '';
+          document.getElementById('profBioShort').value = p.bio_short || '';
+          document.getElementById('profBioLong').value = p.bio_long || '';
+        }
+      } catch (e) {
+        console.error('Failed to load profile:', e);
+      }
+    }
+
+    async function saveProfile(e) {
+      e.preventDefault();
+      const payload = {
+        full_name: document.getElementById('profFullName').value.trim(),
+        title: document.getElementById('profTitle').value.trim(),
+        email: document.getElementById('profEmail').value.trim(),
+        phone: document.getElementById('profPhone').value.trim(),
+        location: document.getElementById('profLocation').value.trim(),
+        status_text: document.getElementById('profStatus').value.trim(),
+        bio_short: document.getElementById('profBioShort').value.trim(),
+        bio_long: document.getElementById('profBioLong').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/admin/profile', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Admin-Key': adminToken
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          notify('Profile settings saved successfully!');
+        } else {
+          alert('Failed to update profile.');
+        }
+      } catch (e) {
+        alert('Network error while saving profile.');
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Initialize CMS
+    checkAuth();
+  </script>
+</body>
+</html>

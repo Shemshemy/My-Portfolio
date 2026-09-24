@@ -1,0 +1,196 @@
+/* ==========================================================================
+   BLACKORANGE PORTFOLIO - KEYFRAMES & MICRO-INTERACTIONS
+   ========================================================================== */
+
+/* 1. Character Floating Animation */
+@keyframes avatarFloat {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(1deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.avatar-image {
+  animation: avatarFloat 6s ease-in-out infinite;
+}
+
+/* 2. Floating 3D Cubes Keyframes */
+@keyframes floatSlow {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(3deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes floatReverse {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(14px) rotate(-4deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes floatGentle {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg) scale(1.02);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+}
+
+/* Apply floating animations to the inner image so outer container handles parallax smoothly */
+.floating-asset img {
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+.cube-top-right img {
+  animation: floatSlow 7s ease-in-out infinite;
+}
+
+.cube-hero-bottom-left img,
+.cube-bottom-left img {
+  animation: floatReverse 8s ease-in-out infinite;
+}
+
+.cube-hero-bottom-mid img,
+.cube-bottom-mid-left img {
+  animation: floatSlow 6.5s ease-in-out infinite 0.5s;
+}
+
+.emoji-hero-top img {
+  animation: floatGentle 5.5s ease-in-out infinite 1s;
+}
+
+.cube-hero-dark img {
+  animation: floatReverse 7.5s ease-in-out infinite 0.8s;
+}
+
+.cube-about-top-left img {
+  animation: floatSlow 6s ease-in-out infinite 0.2s;
+}
+
+.cube-about-right img {
+  animation: floatReverse 7.2s ease-in-out infinite 0.6s;
+}
+
+.cube-about-dark img {
+  animation: floatSlow 8s ease-in-out infinite 1.2s;
+}
+
+.emoji-contact-left img {
+  animation: floatGentle 6s ease-in-out infinite 0.4s;
+}
+
+.cube-footer-bottom-1 img {
+  animation: floatSlow 7s ease-in-out infinite 0.7s;
+}
+
+.cube-footer-bottom-2 img {
+  animation: floatReverse 8.5s ease-in-out infinite 1s;
+}
+
+/* 3. Glowing Ambient Pulse */
+@keyframes ambientGlowPulse {
+  0%, 100% {
+    box-shadow: 
+      0 30px 80px -20px rgba(0, 0, 0, 0.8),
+      0 0 0 1.5px rgba(255, 87, 34, 0.45),
+      0 0 35px -5px rgba(255, 87, 34, 0.25);
+  }
+  50% {
+    box-shadow: 
+      0 30px 80px -20px rgba(0, 0, 0, 0.8),
+      0 0 0 1.5px rgba(255, 87, 34, 0.6),
+      0 0 45px 0px rgba(255, 87, 34, 0.35);
+  }
+}
+
+.portfolio-card-container {
+  animation: ambientGlowPulse 8s ease-in-out infinite;
+}
+
+/* 4. Scroll Down Arrow Bounce */
+@keyframes scrollBounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+}
+
+.sidebar-scroll-indicator span {
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+/* 5. Shimmer effect on buttons */
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  transition: all 0.75s ease;
+}
+
+.btn-primary:hover::after {
+  left: 140%;
+}
+
+/* 6. Form Button Loading Spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 0.8s linear infinite;
+}
+
+/* 7. Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dennis Shem Limo — Data Analyst • Python Developer • Data Science</title>
+  <meta name="description" content="Portfolio of Dennis Shem O. Limo — Versatile Data Analyst, Python Developer, and Data Scientist based in Nairobi, Kenya (Remote-Ready). Expert in ML, OCR pipelines, data visualization, and full-stack software.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- MAIN WRAPPER -->
+  <div class="portfolio-wrapper">
+    <!-- Floating Background Decorative 3D Assets (Bound to Wrapper) -->
+    <div class="decorations-layer" aria-hidden="true">
+      <div class="floating-asset cube-top-right" data-parallax-speed="25" data-parallax-rotate="10">
+        <img src="assets/images/cube-orange.png" alt="" loading="lazy">
+      </div>
+      <div class="floating-asset cube-hero-bottom-left" data-parallax-speed="-20" data-parallax-rotate="-8">
+        <img src="assets/images/cube-orange.png" alt="" loading="lazy">
+      </div>
+      <div class="floating-asset cube-hero-bottom-mid" data-parallax-speed="-12" data-parallax-rotate="6">
+        <img src="assets/images/cube-orange.png" alt="" loading="lazy">
+      </div>
+      <div class="floating-asset cube-footer-bottom-1" data-parallax-speed="18" data-parallax-rotate="8">
+        <img src="assets/images/cube-orange.png" alt="" loading="lazy">
+      </div>
+      <div class="floating-asset cube-footer-bottom-2" data-parallax-speed="-14" data-parallax-rotate="-12">
+        <img src="assets/images/cube-orange.png" alt="" loading="lazy">
+      </div>
+    </div>
+
+    <!-- SIGNATURE GLOWING RIM CARD CONTAINER -->
+    <main class="portfolio-card-container">
+      <div class="portfolio-inner">
+
+        <!-- ================================================================
+             1. HEADER
+             ================================================================ -->
+        <header class="site-header">
+          <!-- Hamburger Toggle -->
+          <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </button>
+
+          <!-- BlackOrange Logo -->
+          <a href="#" class="site-logo">
+            <span class="logo-black">Dennis</span><span class="logo-orange">Limo</span>
+          </a>
+
+          <!-- Header Actions -->
+          <div class="header-actions">
+            <a href="mailto:shemdennis5@gmail.com" class="name-toggle-btn" title="Send Email">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <span>Hire Me</span>
+            </a>
+            <button class="name-toggle-btn" id="resumeModalBtn" title="View Full Resume & Credentials">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <span>View CV</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- ================================================================
+             2. HERO SECTION
+             ================================================================ -->
+        <section class="hero-section" id="hero">
+          <!-- Left Social Sidebar (Inside Hero) -->
+          <aside class="hero-social-sidebar" aria-label="Social media links">
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com/in/dennis-limo" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="LinkedIn" title="LinkedIn Profile">
+              <svg viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </a>
+
+            <!-- GitHub -->
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-icon-link" aria-label="GitHub" title="GitHub Code">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+            </a>
+
+            <!-- Email -->
+            <a href="mailto:shemdennis5@gmail.com" class="social-icon-link" aria-label="Email" title="shemdennis5@gmail.com">
+              <svg viewBox="0 0 24 24">
+                <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l9.518 7.714 9.518-7.714v11.817h-19.036z"/>
+              </svg>
+            </a>
+
+            <!-- Phone / WhatsApp -->
+            <a href="tel:+254721877088" class="social-icon-link" aria-label="Phone" title="+254 721 877 088">
+              <svg viewBox="0 0 24 24">
+                <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.3-.6-3.5 0-.6-.4-1-1-1h-3.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/>
+              </svg>
+            </a>
+          </aside>
+
+          <!-- Vertical Scroll Down Indicator (Inside Hero) -->
+          <div class="hero-scroll-indicator" id="scrollIndicator" role="button" tabindex="0" title="Scroll down to About section">
+            <span>&lt;</span> scroll down
+          </div>
+          <!-- Floating dark cube & sunglasses emoji inside hero bounds -->
+          <div class="floating-asset cube-hero-dark" data-parallax-speed="-10">
+            <img src="assets/images/cube-orange.png" alt="Geometric Shape">
+          </div>
+          <div class="floating-asset emoji-hero-top" data-parallax-speed="18" data-parallax-rotate="-12">
+            <img src="assets/images/cool-emoji.png" alt="3D Cool Emoji">
+          </div>
+
+          <!-- Hero Left Content -->
+          <div class="hero-content">
+            <div class="hero-subtitle">Hello</div>
+            <h1 class="hero-title">
+              I'm <span class="highlight-name" id="heroName">Dennis Shem Limo</span>
+            </h1>
+            <p class="hero-desc" id="heroDesc">
+              Data Analyst • Python Developer • Data Scientist based in Nairobi, Kenya (Remote-Ready).
+            </p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="#about" class="btn-primary">Learn more</a>
+              <a href="#works" class="btn-primary" style="background: var(--bg-card-elevated); border: 1px solid var(--border-highlight); box-shadow: none;">View Projects</a>
+            </div>
+          </div>
+
+          <!-- Hero Right 3D Visual -->
+          <div class="hero-visual">
+            <div class="avatar-container" data-parallax-speed="14" data-parallax-rotate="2">
+              <img src="assets/images/avatar-3d.png" alt="3D Floating Developer Avatar" class="avatar-image" id="heroAvatarImg">
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             3. ABOUT ME SECTION
+             ================================================================ -->
+        <section class="section about-section" id="about">
+          <!-- Floating 3D cubes around About -->
+          <div class="floating-asset cube-about-top-left" data-parallax-speed="-14" data-parallax-rotate="15">
+            <img src="assets/images/cube-orange.png" alt="3D Orange Cube">
+          </div>
+          <div class="floating-asset cube-about-right" data-parallax-speed="22" data-parallax-rotate="-10">
+            <img src="assets/images/cube-orange.png" alt="3D Orange Cube">
+          </div>
+          <div class="floating-asset cube-about-dark" data-parallax-speed="-8">
+            <img src="assets/images/cube-orange.png" alt="Geometric Cube">
+          </div>
+
+          <div class="about-grid">
+            <!-- Left: Dennis's Graduation Photo -->
+            <div class="about-photo-wrapper">
+              <div class="about-photo-card" id="aboutPhotoCard" title="Click to toggle Full Color & Monochrome mode">
+                <img src="assets/images/portrait-dennis.jpg" alt="Dennis Shem Limo Graduation" class="about-photo-img" id="aboutPhotoImg">
+                <div class="photo-badge">Click for Color / B&amp;W</div>
+              </div>
+            </div>
+
+            <!-- Right: About Description -->
+            <div class="about-info">
+              <div class="about-label">About me</div>
+              <h2 class="about-headline">
+                I will <span class="highlight-orange">Analyze, Build &amp; Deploy</span> intelligent data &amp; software systems
+              </h2>
+              <p class="about-desc">
+                Versatile <strong>Data Analyst</strong> and <strong>Python Developer</strong> holding a B.Sc. in Computer Science from Maseno University, certified in Data Science &amp; AI from Moringa School, and Cisco CCNA certified. Experienced in taking end-to-end tools from concept to production independently.
+              </p>
+              <p class="about-desc">
+                My work spans automated OCR computer vision pipelines, secure role-based web platforms, predictive machine learning models, and actionable visual analytics dashboards using Power BI and Tableau. I bridge rigorous quantitative analysis with production software engineering.
+              </p>
+              <div class="about-meta-pills">
+                <div class="meta-pill"><span>🎓</span> B.Sc. Computer Science (Maseno)</div>
+                <div class="meta-pill"><span>🤖</span> Data Science &amp; AI (Moringa)</div>
+                <div class="meta-pill"><span>🛡️</span> Cisco CCNA Certified</div>
+                <div class="meta-pill"><span>🌍</span> Remote-Ready (Nairobi, Kenya)</div>
+                <div class="meta-pill"><span>⚡</span> Full Lifecycle Ownership</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             4. FEATURED WORKS SECTION (Dennis's Real Projects)
+             ================================================================ -->
+        <section class="section works-section" id="works">
+          <h2 class="section-title">Featured Works</h2>
+          <div class="works-grid">
+
+            <!-- Project 1: OrbitIQ -->
+            <div class="work-card">
+              <div class="work-card-content">
+                <div style="font-size: 0.76rem; font-weight: 700; color: var(--primary-orange); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.4rem;">Solo Project • Live on Render</div>
+                <h3 class="work-card-title">OrbitIQ</h3>
+                <p class="work-card-desc">KCSE Results &amp; University Placement Advisor with automated OCR grade extraction.</p>
+              </div>
+              <div style="display: flex; gap: 0.8rem; align-items: center;">
+                <button class="btn-work-live" data-project="orbitiq">Details</button>
+                <a href="https://orbitiq-cic0.onrender.com" target="_blank" rel="noopener noreferrer" class="btn-work-live" style="background: transparent; border: 1px solid var(--primary-orange); color: var(--primary-orange-light);">Visit Site ↗</a>
+              </div>
+            </div>
+
+            <!-- Project 2: Business Loan Application Platform -->
+            <div class="work-card">
+              <div class="work-card-content">
+                <div style="font-size: 0.76rem; font-weight: 700; color: var(--primary-orange); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.4rem;">Commercial SaaS • Team Project</div>
+                <h3 class="work-card-title">Business Loan Platform</h3>
+                <p class="work-card-desc">Secure microfinance loan system with RBAC permissions and session security.</p>
+              </div>
+              <div style="display: flex; gap: 0.8rem; align-items: center;">
+                <button class="btn-work-live" data-project="loan">Details</button>
+                <a href="https://menace.pythonanywhere.com" target="_blank" rel="noopener noreferrer" class="btn-work-live" style="background: transparent; border: 1px solid var(--primary-orange); color: var(--primary-orange-light);">Visit Site ↗</a>
+              </div>
+            </div>
+
+            <!-- Project 3: Koitalel Samoei University Website -->
+            <div class="work-card">
+              <div class="work-card-content">
+                <div style="font-size: 0.76rem; font-weight: 700; color: var(--primary-orange); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.4rem;">Freelance Project • Live System</div>
+                <h3 class="work-card-title">Koitalel Samoei Portal</h3>
+                <p class="work-card-desc">Public client portal &amp; comprehensive administrative management workflows.</p>
+              </div>
+              <div style="display: flex; gap: 0.8rem; align-items: center;">
+                <button class="btn-work-live" data-project="ksu">Details</button>
+                <a href="https://ksu-5wmg.onrender.com" target="_blank" rel="noopener noreferrer" class="btn-work-live" style="background: transparent; border: 1px solid var(--primary-orange); color: var(--primary-orange-light);">Visit Site ↗</a>
+              </div>
+            </div>
+
+            <!-- Project 4: Dengue Fever Clinical Data Analysis -->
+            <div class="work-card">
+              <div class="work-card-content">
+                <div style="font-size: 0.76rem; font-weight: 700; color: var(--primary-orange); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.4rem;">Clinic Client Project • 1 Year</div>
+                <h3 class="work-card-title">Dengue Fever Clinical Analytics</h3>
+                <p class="work-card-desc">Longitudinal healthcare trend tracking and visual dashboards for clinical staff.</p>
+              </div>
+              <div style="display: flex; gap: 0.8rem; align-items: center;">
+                <button class="btn-work-live" data-project="dengue">Details</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ================================================================
+             5. MY SKILLS SECTION (Dennis's Technical Stack)
+             ================================================================ -->
+        <section class="section skills-section" id="skills">
+          <h2 class="section-title">My Skills</h2>
+          <div class="skills-grid">
+
+            <!-- 1. Python -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.008 2.752h5.81v.825H3.924S0 5.753 0 11.889c0 6.137 3.42 5.95 3.42 5.95h2.04v-2.866s-.11-3.421 3.364-3.421h5.772s3.255.056 3.255-3.153V2.656S18.39 0 11.914 0zm-3.2 1.834a1.077 1.077 0 1 1 0 2.155 1.077 1.077 0 0 1 0-2.155zm3.372 22.166c6.094 0 5.714-2.656 5.714-2.656l-.008-2.752h-5.81v-.825h8.094s3.924.48 3.924-5.656c0-6.136-3.42-5.95-3.42-5.95h-2.04v2.866s.11 3.421-3.364 3.421H8.624s-3.255-.056-3.255 3.153v5.741s-.532 2.656 5.943 2.656zm3.2-1.834a1.077 1.077 0 1 1 0-2.155 1.077 1.077 0 0 1 0 2.155z"/></svg>
+              </div>
+              <span class="skill-name">Python</span>
+            </div>
+
+            <!-- 2. SQL / MySQL -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 4.02 2 6.5s4.48 4.5 10 4.5 10-2.02 10-4.5S17.52 2 12 2zm0 6C8.13 8 5 6.88 5 5.5S8.13 3 12 3s7 1.12 7 2.5S15.87 8 12 8zm-10 4c0 2.48 4.48 4.5 10 4.5s10-2.02 10-4.5v-2.1c-2.14 1.58-5.84 2.6-10 2.6s-7.86-1.02-10-2.6V12zm0 5.5C2 19.98 6.48 22 12 22s10-2.02 10-4.5v-2.1c-2.14 1.58-5.84 2.6-10 2.6s-7.86-1.02-10-2.6v2.1z"/></svg>
+              </div>
+              <span class="skill-name">SQL (MySQL)</span>
+            </div>
+
+            <!-- 3. Machine Learning -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .26-.05.5-.14.73l2.41 2.41c.23-.09.47-.14.73-.14a2 2 0 1 1 0 4c-.26 0-.5-.05-.73-.14l-2.41 2.41c.09.23.14.47.14.73a2 2 0 1 1-4 0c0-.26.05-.5.14-.73L7.73 11.27c-.23.09-.47.14-.73.14a2 2 0 1 1 0-4c.26 0 .5.05.73.14l2.41-2.41c-.09-.23-.14-.47-.14-.73a2 2 0 0 1 2-2zm0 13a2 2 0 0 1 2 2c0 .26-.05.5-.14.73l2.41 2.41c.23-.09.47-.14.73-.14a2 2 0 1 1 0 4c-.26 0-.5-.05-.73-.14l-2.41-2.41c.09-.23.14-.47.14-.73a2 2 0 1 1-4 0z"/></svg>
+              </div>
+              <span class="skill-name">Scikit-Learn</span>
+            </div>
+
+            <!-- 4. TensorFlow & Keras -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M12 0L1.605 6v12L12 24l10.395-6V6L12 0zm-1.04 19.387L3.684 15.21V8.79l7.276 4.198v6.399zm2.08 0v-6.399l7.276-4.198v6.42l-7.276 4.177zM12 11.53L4.724 7.332 12 3.134l7.276 4.198L12 11.53z"/></svg>
+              </div>
+              <span class="skill-name">TensorFlow</span>
+            </div>
+
+            <!-- 5. Power BI -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M4 11h3v10H4zm5-4h3v14H9zm5-5h3v19h-3zm5 8h3v11h-3z"/></svg>
+              </div>
+              <span class="skill-name">Power BI</span>
+            </div>
+
+            <!-- 6. Tableau -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M11.39 0v3.42H8.38V4.8h3.01v3.42h1.41V4.8h3.01V3.42h-3.01V0h-1.41zm6.77 5.07v3.08h-2.69v1.24h2.69v3.08h1.27V9.39h2.69V8.15h-2.69V5.07h-1.27zM4.62 6.31v3.08H1.93v1.24h2.69v3.08h1.27v-3.08h2.69V9.39H5.89V6.31H4.62zm6.77 4.3v4.61H7.07v1.86h4.32v4.61h1.92v-4.61h4.32v-1.86h-4.32v-4.61h-1.92z"/></svg>
+              </div>
+              <span class="skill-name">Tableau</span>
+            </div>
+
+            <!-- 7. Pandas & NumPy -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 1 0 22 12 10 10 0 0 0 12 2zm1 14.93V15h-2v1.93A8 8 0 0 1 4.07 13H6v-2H4.07A8 8 0 0 1 11 4.07V6h2V4.07A8 8 0 0 1 19.93 11H18v2h1.93A8 8 0 0 1 13 16.93zM12 8a4 4 0 1 0 4 4 4 4 0 0 0-4-4z"/></svg>
+              </div>
+              <span class="skill-name">Pandas / NumPy</span>
+            </div>
+
+            <!-- 8. OCR & Computer Vision -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M3 4V1h2v2h2v2H3zm16-3h2v3h-4V2h2V1zm2 19v3h-2v-2h-2v-2h4zm-18 3v-3h4v2H5v1H3zm3-12h12v6H6v-6zm2 2v2h8v-2H8z"/></svg>
+              </div>
+              <span class="skill-name">OCR Pipelines</span>
+            </div>
+
+            <!-- 9. HTML5 / Web Dev -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm7.031 9.75l-.232-2.718h11.455l.232-2.719H5.539l.71 8.156h8.848l-.348 3.906-2.76.744-2.76-.744-.176-2.031H6.674l.348 4.281 4.965 1.381 4.965-1.381.71-7.669H8.531z"/></svg>
+              </div>
+              <span class="skill-name">Web Integration</span>
+            </div>
+
+            <!-- 10. Cisco CCNA & Security -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+              </div>
+              <span class="skill-name">Cisco CCNA</span>
+            </div>
+
+            <!-- 11. Jupyter Notebook -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M12 0a11.95 11.95 0 0 0-7.3 2.5A5.6 5.6 0 0 1 7.4 5a5.55 5.55 0 0 1 2.3-1.6A11.96 11.96 0 0 1 12 3c4.9 0 9.1 3 10.9 7.2a5.55 5.55 0 0 1-2.3 1.6 5.6 5.6 0 0 1-2.7-2.5A11.95 11.95 0 0 0 12 0zm0 24a11.95 11.95 0 0 0 7.3-2.5 5.6 5.6 0 0 1-2.7-2.5 5.55 5.55 0 0 1-2.3 1.6A11.96 11.96 0 0 1 12 21c-4.9 0-9.1-3-10.9-7.2a5.55 5.55 0 0 1 2.3-1.6 5.6 5.6 0 0 1 2.7 2.5A11.95 11.95 0 0 0 12 24z"/></svg>
+              </div>
+              <span class="skill-name">Jupyter</span>
+            </div>
+
+            <!-- 12. Cloud & Deployment (Render / PythonAnywhere) -->
+            <div class="skill-item">
+              <div class="skill-icon-box">
+                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/></svg>
+              </div>
+              <span class="skill-name">Cloud / Render</span>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ================================================================
+             6. BLOG & RESEARCH ARTICLES
+             =============================================================== -->
+        <section class="section blog-section" id="blog">
+          <h2 class="section-title">Blog &amp; Insights</h2>
+          <div class="blog-grid">
+
+            <!-- Blog Post 1: OCR Pipeline -->
+            <article class="blog-card" data-blog="ocr">
+              <img src="assets/images/blog-1.jpg" alt="Automated OCR Data Extraction" class="blog-card-img">
+              <div class="blog-card-overlay"></div>
+              <div class="blog-card-content">
+                <h3 class="blog-card-title">Engineering an Automated OCR Pipeline for Exam Slip Digitization</h3>
+                <div class="blog-card-meta">
+                  <span class="blog-card-date">Case Study • Python &amp; CV</span>
+                  <button class="blog-card-share" title="Share article" aria-label="Share article">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Blog Post 2: Microfinance SaaS Security -->
+            <article class="blog-card" data-blog="security">
+              <img src="assets/images/blog-2.jpg" alt="Session Security in Python SaaS" class="blog-card-img">
+              <div class="blog-card-overlay"></div>
+              <div class="blog-card-content">
+                <h3 class="blog-card-title">Architecting RBAC and Strict Session Security for Commercial SaaS</h3>
+                <div class="blog-card-meta">
+                  <span class="blog-card-date">Architecture • Python Web</span>
+                  <button class="blog-card-share" title="Share article" aria-label="Share article">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Blog Post 3: Longitudinal Healthcare Analytics -->
+            <article class="blog-card" data-blog="healthcare">
+              <img src="assets/images/blog-3.jpg" alt="Clinical Analytics Dashboards" class="blog-card-img">
+              <div class="blog-card-overlay"></div>
+              <div class="blog-card-content">
+                <h3 class="blog-card-title">Tracking Clinical Infection Trends: Longitudinal Healthcare Analytics</h3>
+                <div class="blog-card-meta">
+                  <span class="blog-card-date">Data Science • Healthcare</span>
+                  <button class="blog-card-share" title="Share article" aria-label="Share article">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- ================================================================
+             7. GET A QUOTE / CONTACT SECTION (Dennis's Real Contact Info)
+             ================================================================ -->
+        <section class="section quote-section" id="quote">
+          <!-- Floating emoji next to Get a quote -->
+          <div class="floating-asset emoji-contact-left" data-parallax-speed="16" data-parallax-rotate="-15">
+            <img src="assets/images/cool-emoji.png" alt="3D Cool Emoji">
+          </div>
+
+          <div class="quote-grid">
+            <!-- Left Info Column -->
+            <div class="quote-left">
+              <h2 class="quote-title">Get in touch</h2>
+              <p class="quote-desc">
+                Whether you have an upcoming data analytics project, machine learning pipeline, Python web application, or full-time remote opportunity, I am immediately available to collaborate.
+              </p>
+
+              <!-- Social / Profile Links Row -->
+              <div class="quote-social-row">
+                <!-- LinkedIn -->
+                <a href="https://linkedin.com/in/dennis-limo" target="_blank" rel="noopener" class="quote-social-link" aria-label="LinkedIn" title="LinkedIn">
+                  <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <!-- GitHub -->
+                <a href="https://github.com" target="_blank" rel="noopener" class="quote-social-link" aria-label="GitHub" title="GitHub">
+                  <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                <!-- Email -->
+                <a href="mailto:shemdennis5@gmail.com" class="quote-social-link" aria-label="Email" title="Email">
+                  <svg viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l9.518 7.714 9.518-7.714v11.817h-19.036z"/></svg>
+                </a>
+                <!-- Phone -->
+                <a href="tel:+254721877088" class="quote-social-link" aria-label="Phone" title="Phone">
+                  <svg viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.3-.6-3.5 0-.6-.4-1-1-1h-3.5c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/></svg>
+                </a>
+              </div>
+
+              <!-- Contact Rows -->
+              <div class="quote-contact-info">
+                <div class="contact-row">
+                  <span class="contact-row-label">Email:</span>
+                  <span class="contact-row-value"><a href="mailto:shemdennis5@gmail.com">shemdennis5@gmail.com</a></span>
+                </div>
+                <div class="contact-row">
+                  <span class="contact-row-label">Phone:</span>
+                  <span class="contact-row-value"><a href="tel:+254721877088">+254 721 877 088</a></span>
+                </div>
+                <div class="contact-row">
+                  <span class="contact-row-label">Location:</span>
+                  <span class="contact-row-value">Nairobi, Kenya (Remote-Ready)</span>
+                </div>
+                <div class="contact-row">
+                  <span class="contact-row-label">Status:</span>
+                  <span class="contact-row-value" style="color: var(--primary-orange-light);">● Available for full-time, contract, or remote</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Terracotta Form Card -->
+            <div class="quote-form-card">
+              <form class="contact-form" id="quoteForm" novalidate>
+                <div class="form-group">
+                  <input type="text" id="contactName" class="form-input" placeholder="Your Full Name" required>
+                </div>
+                <div class="form-group">
+                  <input type="email" id="contactEmail" class="form-input" placeholder="Your Email Address" required>
+                </div>
+                <div class="form-group">
+                  <input type="tel" id="contactPhone" class="form-input" placeholder="Your Phone Number">
+                </div>
+                <div class="form-group">
+                  <textarea id="contactMessage" class="form-textarea" placeholder="Type Your Message..." required></textarea>
+                </div>
+                <div class="form-submit-container">
+                  <button type="submit" class="btn-send-message" id="sendBtn">
+                    <span>Send message</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             8. FOOTER
+             ================================================================ -->
+        <footer class="site-footer">
+          <p>&copy; 2024 <span id="footerCopyrightName">Dennis Shem O. Limo</span>. All Rights Reserved. Data Science • Python • Software Engineering.</p>
+        </footer>
+
+      </div> <!-- .portfolio-inner -->
+    </main> <!-- .portfolio-card-container -->
+  </div> <!-- .portfolio-wrapper -->
+
+  <!-- ====================================================================
+       DRAWER MENU OVERLAY
+       ==================================================================== -->
+  <div class="drawer-backdrop" id="drawerBackdrop">
+    <aside class="drawer-content" aria-label="Mobile Navigation">
+      <div>
+        <div class="drawer-header">
+          <div class="site-logo">
+            <span class="logo-black">Dennis</span><span class="logo-orange">Limo</span>
+          </div>
+          <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">&times;</button>
+        </div>
+        <nav>
+          <ul class="drawer-nav-list">
+            <li><a href="#hero" class="drawer-nav-link"><span>01</span> Home</a></li>
+            <li><a href="#about" class="drawer-nav-link"><span>02</span> About Me</a></li>
+            <li><a href="#works" class="drawer-nav-link"><span>03</span> Key Projects</a></li>
+            <li><a href="#skills" class="drawer-nav-link"><span>04</span> Technical Skills</a></li>
+            <li><a href="#blog" class="drawer-nav-link"><span>05</span> Insights</a></li>
+            <li><a href="#quote" class="drawer-nav-link"><span>06</span> Contact Me</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="drawer-footer">
+        <p>Nairobi, Kenya • Remote-Ready</p>
+        <p style="color: var(--primary-orange); margin-top: 0.3rem;">shemdennis5@gmail.com</p>
+        <div style="margin-top: 1rem;">
+          <a href="/admin" style="font-size: 0.76rem; color: #a1a1aa; border: 1px solid rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.3rem;">
+            <span>🔒</span> Admin Inbox
+          </a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ====================================================================
+       INTERACTIVE MODAL OVERLAY (Projects, Blog Articles, Resume)
+       ==================================================================== -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">&times;</button>
+      <h3 id="modalTitle" style="font-size: 1.5rem; margin-bottom: 1.2rem; color: #ffffff; padding-right: 2rem;"></h3>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/parallax.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
