@@ -58,7 +58,7 @@ gunicorn --config gunicorn.conf.py app:app
 ```
 
 - Open portfolio: [http://localhost:5000](http://localhost:5000)
-- Admin portal: [http://localhost:5000/admin](http://localhost:5000/admin) (Default key: `dennis2024`)
+- Admin portal: [http://localhost:5000/admin](http://localhost:5000/admin) (Configured via `PORTFOLIO_ADMIN_KEY`, default in local dev: `dennis2024`)
 - Health check: [http://localhost:5000/health](http://localhost:5000/health)
 
 ---

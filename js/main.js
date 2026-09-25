@@ -612,10 +612,8 @@ document.addEventListener('DOMContentLoaded', () => {
           showToast(result.error || 'Failed to send message. Please try again.', '⚠️');
         }
       } catch (err) {
-        console.warn('Backend offline or static mode:', err);
-        // Graceful fallback for static viewing without server
-        quoteForm.reset();
-        showToast(`Thank you ${name}! Your inquiry has been submitted.`, '✉️');
+        console.error('Contact form submission error:', err);
+        showToast('Connection issue. Please retry or email directly at shemdennis5@gmail.com', '⚠️');
       } finally {
         sendBtn.disabled = false;
         sendBtn.innerHTML = originalText;

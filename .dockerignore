@@ -6,11 +6,26 @@ __pycache__
 *.pyc
 *.pyo
 *.pyd
+
+# SQLite database files (never bake local database into container image)
+*.db
+*.sqlite
+*.sqlite3
+portfolio.db
+data/
 *.db-journal
 *.db-wal
 *.db-shm
+
+# Dynamic media uploads
+assets/images/uploads/*
+!assets/images/uploads/.gitkeep
+
+# Environment & Secrets
 .env
 .env.*
+
+# OS and Editor
 .DS_Store
 Thumbs.db
 .vscode

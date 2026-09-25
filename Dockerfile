@@ -19,8 +19,19 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
+# Create dedicated non-root system user and prepare directories
+RUN addgroup --system --gid 1001 appgroup && \
+    adduser --system --uid 1001 --gid 1001 --no-create-home appuser && \
+    mkdir -p /app/data /app/assets/images/uploads
+
 # Copy application source code
 COPY . .
+
+# Set ownership to unprivileged user
+RUN chown -R appuser:appgroup /app
+
+# Switch to non-root user
+USER appuser
 
 # Expose port
 EXPOSE 5000

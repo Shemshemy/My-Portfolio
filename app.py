@@ -16,8 +16,13 @@ import os
 import sqlite3
 import json
 import time
+import hmac
+import secrets
+import logging
 from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify, send_from_directory
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 # Optional environment variable support from .env
 try:
@@ -34,9 +39,59 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATABASE_PATH = os.environ.get('DATABASE_PATH', os.path.join(BASE_DIR, 'portfolio.db'))
 UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', os.path.join(BASE_DIR, 'assets', 'images', 'uploads'))
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp', 'gif'}
-ADMIN_PASSCODE = os.environ.get('PORTFOLIO_ADMIN_KEY', 'dennis2024')
 PORT = int(os.environ.get('PORT', 5000))
-SECRET_KEY = os.environ.get('SECRET_KEY', 'portfolio-shem-limo-secret-key-2024')
+
+# Environment detection
+IS_PRODUCTION = bool(
+    os.environ.get('RENDER') or
+    os.environ.get('FLASK_ENV') == 'production' or
+    os.environ.get('ENVIRONMENT') == 'production'
+)
+
+# Admin passcode handling: NEVER default to known passwords in production
+raw_admin_key = os.environ.get('PORTFOLIO_ADMIN_KEY', '').strip()
+if raw_admin_key:
+    ADMIN_PASSCODE = raw_admin_key
+elif IS_PRODUCTION:
+    ADMIN_PASSCODE = None
+    logging.warning("CRITICAL SECURITY: PORTFOLIO_ADMIN_KEY is not set in production! Admin mutations are disabled.")
+else:
+    ADMIN_PASSCODE = 'dennis2024'  # Local development fallback only
+    logging.info("Running in development mode: default local admin key active.")
+
+# Secret Key handling: Never use predictable keys in production
+raw_secret = os.environ.get('SECRET_KEY', '').strip()
+if raw_secret:
+    SECRET_KEY = raw_secret
+elif IS_PRODUCTION:
+    SECRET_KEY = secrets.token_hex(32)
+    logging.warning("SECRET_KEY was not set in production. Generated an ephemeral cryptographically secure key.")
+else:
+    SECRET_KEY = 'portfolio-shem-limo-dev-key'
+
+# Rate limiting data structures (In-Memory sliding window by IP)
+FAILED_LOGINS = {}       # ip -> [timestamp, ...]
+CONTACT_SUBMISSIONS = {} # ip -> [timestamp, ...]
+
+def get_client_ip():
+    forwarded = request.headers.get('X-Forwarded-For')
+    if forwarded:
+        return forwarded.split(',')[0].strip()
+    return request.remote_addr or '127.0.0.1'
+
+def check_rate_limit(tracker_dict, ip, max_count, window_seconds):
+    now = time.time()
+    timestamps = [t for t in tracker_dict.get(ip, []) if now - t < window_seconds]
+    if len(timestamps) >= max_count:
+        tracker_dict[ip] = timestamps
+        return False
+    return True
+
+def record_rate_limit_event(tracker_dict, ip, window_seconds=600):
+    now = time.time()
+    timestamps = [t for t in tracker_dict.get(ip, []) if now - t < window_seconds]
+    timestamps.append(now)
+    tracker_dict[ip] = timestamps
 
 # Ensure directories exist (crucial when using persistent volume mounts on cloud hosts)
 db_dir = os.path.dirname(os.path.abspath(DATABASE_PATH))
@@ -292,11 +347,15 @@ init_db()
 # ==============================================================================
 
 def verify_admin_auth():
+    if not ADMIN_PASSCODE:
+        return False
     auth_header = request.headers.get('X-Admin-Key') or request.headers.get('Authorization')
-    if auth_header and (auth_header == ADMIN_PASSCODE or auth_header == f'Bearer {ADMIN_PASSCODE}'):
-        return True
-    key = request.args.get('key')
-    return key == ADMIN_PASSCODE
+    if not auth_header:
+        return False
+    token = auth_header.replace('Bearer ', '').strip()
+    if not token:
+        return False
+    return hmac.compare_digest(token, ADMIN_PASSCODE)
 
 # ==============================================================================
 # STATIC & WEB ROUTES
@@ -306,8 +365,10 @@ def verify_admin_auth():
 def set_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['X-Frame-Options'] = 'SAMEORIGIN'
-    response.headers['X-XSS-Protection'] = '1; mode=block'
     response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    response.headers['Permissions-Policy'] = 'camera=(), microphone=(), geolocation=()'
+    if request.is_secure or request.headers.get('X-Forwarded-Proto', '').lower() == 'https':
+        response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
     return response
 
 @app.route('/')
@@ -611,6 +672,13 @@ def update_profile():
 
 @app.route('/api/contact', methods=['POST'])
 def handle_contact():
+    client_ip = get_client_ip()
+    if not check_rate_limit(CONTACT_SUBMISSIONS, client_ip, max_count=5, window_seconds=600):
+        return jsonify({
+            'success': False,
+            'error': 'Too many messages sent from your network. Please wait a few minutes before submitting another.'
+        }), 429
+
     data = request.get_json(silent=True) or request.form.to_dict()
     if not data:
         return jsonify({'success': False, 'error': 'No data provided'}), 400
@@ -627,9 +695,7 @@ def handle_contact():
     if not message or len(message) < 5:
         return jsonify({'success': False, 'error': 'Please provide a message with at least 5 characters'}), 400
 
-    ip_address = request.headers.get('X-Forwarded-For', request.remote_addr or '127.0.0.1')
-    if ',' in ip_address:
-        ip_address = ip_address.split(',')[0].strip()
+    record_rate_limit_event(CONTACT_SUBMISSIONS, client_ip, window_seconds=600)
 
     try:
         with get_db() as conn:
@@ -637,12 +703,12 @@ def handle_contact():
             cursor.execute('''
                 INSERT INTO contacts (name, email, phone, message, ip_address)
                 VALUES (?, ?, ?, ?, ?)
-            ''', (name, email, phone, message, ip_address))
+            ''', (name, email, phone, message, client_ip))
 
             cursor.execute('''
                 INSERT INTO analytics (event_type, target_name, ip_address, user_agent)
                 VALUES (?, ?, ?, ?)
-            ''', ('contact_submission', email, ip_address, request.headers.get('User-Agent', '')[:200]))
+            ''', ('contact_submission', email, client_ip, request.headers.get('User-Agent', '')[:200]))
             conn.commit()
 
         return jsonify({
@@ -718,10 +784,26 @@ def get_stats():
 
 @app.route('/api/admin/login', methods=['POST'])
 def admin_login():
+    client_ip = get_client_ip()
+    if not check_rate_limit(FAILED_LOGINS, client_ip, max_count=5, window_seconds=300):
+        return jsonify({
+            'success': False,
+            'error': 'Too many failed login attempts. Please wait 5 minutes before trying again.'
+        }), 429
+
+    if not ADMIN_PASSCODE:
+        return jsonify({
+            'success': False,
+            'error': 'Admin portal is not configured or disabled on this server.'
+        }), 503
+
     data = request.get_json(silent=True) or {}
     key = data.get('passcode', '').strip()
-    if key == ADMIN_PASSCODE:
+    if key and hmac.compare_digest(key, ADMIN_PASSCODE):
+        FAILED_LOGINS.pop(client_ip, None)
         return jsonify({'success': True, 'token': ADMIN_PASSCODE})
+
+    record_rate_limit_event(FAILED_LOGINS, client_ip, window_seconds=300)
     return jsonify({'success': False, 'error': 'Invalid admin passcode'}), 401
 
 @app.route('/api/admin/messages', methods=['GET'])

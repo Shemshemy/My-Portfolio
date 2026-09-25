@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Replace with your custom production domain or deployed Render URL -->
   <url>
-    <loc>/</loc>
+    <loc>https://dennis-limo-portfolio.onrender.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

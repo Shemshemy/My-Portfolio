@@ -29,10 +29,20 @@ Thumbs.db
 # Logs & Diagnostics
 *.log
 
-# SQLite Temporary Runtime Files (Locks & Journals)
+# SQLite Databases & Runtime Files
+*.db
+*.sqlite
+*.sqlite3
+portfolio.db
+data/
 *.db-journal
 *.db-wal
 *.db-shm
+
+# User Uploads
+assets/images/uploads/*
+!assets/images/uploads/.gitkeep
+!assets/images/uploads/upload_1789142661_cube-orange.png
 
 # OS / Temporary
 tmp/

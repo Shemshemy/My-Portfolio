@@ -9,8 +9,8 @@ services:
       - "5000:5000"
     environment:
       - PORT=5000
-      - PORTFOLIO_ADMIN_KEY=dennis2024
-      - SECRET_KEY=production-secret-change-me
+      - PORTFOLIO_ADMIN_KEY=${PORTFOLIO_ADMIN_KEY:-}
+      - SECRET_KEY=${SECRET_KEY:-}
       - DATABASE_PATH=/app/data/portfolio.db
       - UPLOAD_FOLDER=/app/assets/images/uploads
     volumes:

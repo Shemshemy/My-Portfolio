@@ -13,6 +13,6 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: PORTFOLIO_ADMIN_KEY
-        value: dennis2024
+        sync: false
       - key: SECRET_KEY
         generateValue: true
